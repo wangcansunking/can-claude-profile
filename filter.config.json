@@ -1,0 +1,26 @@
+{
+  "$comment": "Controls what gets excluded when syncing machine -> repo. Edit freely.",
+  "keywords": [
+    "microsoft",
+    "azure",
+    "ado",
+    "m365",
+    "o365",
+    "office",
+    "workiq",
+    "metagraph",
+    "foundry",
+    "substrate",
+    "outlook",
+    "exchange"
+  ],
+  "deny": [
+    "validate-build"
+  ],
+  "allow": [],
+  "$notes": {
+    "keywords": "Case-insensitive substring match against item names/ids. Catches future MS additions automatically.",
+    "deny": "Exact item names to always exclude even when no keyword matches (e.g. M365-internal skills).",
+    "allow": "Exact item names to always KEEP even if a keyword matched (overrides keywords + deny)."
+  }
+}

@@ -1,0 +1,7 @@
+FROM ubuntu:24.04
+# Full env: node + git + the real claude CLI (proves marketplaces are added).
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nodejs npm git >/dev/null && rm -rf /var/lib/apt/lists/*
+RUN npm install -g @anthropic-ai/claude-code >/dev/null 2>&1 || echo "claude install may have failed"
+COPY . /work
+WORKDIR /work
+ENTRYPOINT ["bash","/work/test/verify.sh"]

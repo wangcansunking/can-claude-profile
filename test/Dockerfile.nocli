@@ -1,0 +1,6 @@
+FROM ubuntu:24.04
+# Minimal env: node + git, NO claude CLI (proves graceful marketplace skip).
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nodejs git >/dev/null && rm -rf /var/lib/apt/lists/*
+COPY . /work
+WORKDIR /work
+ENTRYPOINT ["bash","/work/test/verify.sh"]

@@ -1,0 +1,14 @@
+{
+  "name": "can-claude-profile",
+  "version": "1.0.0",
+  "description": "One-command capture and restore of a personal Claude Code setup (skills, plugins, MCP, settings), with Microsoft items filtered out.",
+  "type": "module",
+  "bin": {
+    "can-claude-profile": "profile.mjs"
+  },
+  "scripts": {
+    "sync": "node profile.mjs sync",
+    "install-profile": "node profile.mjs install"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-06-30T09:25:58.319Z",
+  "skills": [
+    {
+      "name": "browser-harness"
+    },
+    {
+      "name": "caveman",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "code-review-fix-loop"
+    },
+    {
+      "name": "diagnose",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "find-skills",
+      "source": "vercel-labs/skills",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git"
+    },
+    {
+      "name": "grill-me",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "grill-with-docs",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "handoff",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "imagent",
+      "source": "unliftedq/imagent",
+      "sourceUrl": "https://github.com/unliftedq/imagent.git"
+    },
+    {
+      "name": "improve-codebase-architecture",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "local-code-review"
+    },
+    {
+      "name": "prototype",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "setup-matt-pocock-skills",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "tdd",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "to-issues",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "to-prd",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "triage",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "ui-ux-pro-max-skill",
+      "source": "aradotso/trending-skills",
+      "sourceUrl": "https://github.com/aradotso/trending-skills.git"
+    },
+    {
+      "name": "write-a-skill",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "zoom-out",
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git"
+    }
+  ],
+  "plugins": {
+    "marketplaces": {
+      "claude-plugins-official": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      },
+      "claude-code-plugins": {
+        "source": "github",
+        "repo": "anthropics/claude-code"
+      },
+      "claude-hud": {
+        "source": "github",
+        "repo": "jarrodwatts/claude-hud"
+      }
+    },
+    "enabled": {
+      "frontend-design@claude-plugins-official": true,
+      "context7@claude-plugins-official": true,
+      "feature-dev@claude-plugins-official": true,
+      "code-simplifier@claude-plugins-official": true,
+      "ralph-loop@claude-plugins-official": true,
+      "typescript-lsp@claude-plugins-official": true,
+      "playwright@claude-plugins-official": true,
+      "superpowers@claude-plugins-official": true,
+      "pr-review-toolkit@claude-plugins-official": true,
+      "pyright-lsp@claude-plugins-official": true,
+      "figma@claude-plugins-official": true,
+      "claude-md-management@claude-plugins-official": true,
+      "csharp-lsp@claude-plugins-official": true,
+      "playground@claude-plugins-official": true,
+      "claude-hud@claude-hud": true,
+      "rust-analyzer-lsp@claude-plugins-official": true
+    }
+  }
+}

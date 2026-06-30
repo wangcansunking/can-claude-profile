@@ -1,0 +1,13 @@
+# Keep scripts and source LF so they run on Linux/macOS/containers.
+# PowerShell 7 handles LF fine, so everything is uniform LF.
+*.sh   text eol=lf
+*.mjs  text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.ps1  text eol=lf
+Dockerfile* text eol=lf
+*.md   text eol=lf
+
+# Vendored skill content is copied verbatim from the machine — store as-is,
+# don't normalize line endings (it's not ours to reformat).
+profile/skills/** -text
