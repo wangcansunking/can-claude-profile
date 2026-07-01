@@ -8,13 +8,10 @@
     "url": "git+https://github.com/wangcansunking/can-claude-profile.git"
   },
   "bin": {
-    "can-claude-profile": "profile.mjs",
-    "ccprofile-install": "bin/ccprofile-install.mjs",
-    "ccprofile-sync": "bin/ccprofile-sync.mjs"
+    "can-claude-profile": "profile.mjs"
   },
   "files": [
     "profile.mjs",
-    "bin/",
     "lib/",
     "profile/",
     "filter.config.json"

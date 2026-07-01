@@ -31,16 +31,16 @@ You want your skills, plugins, and settings on a fresh machine. Two ways:
 Once this repo is on GitHub (public), install onto any machine without cloning:
 
 ```bash
-npx -p github:wangcansunking/can-claude-profile ccprofile-install
+npx github:wangcansunking/can-claude-profile install
 ```
 
 npx fetches the repo (skill content travels with it), runs the installer, and is gone.
 Add `--yes` to skip the prompt. This is the closest thing to "GitHub dist" — nothing is
 permanently installed, and it works the same on Windows, macOS, and Linux.
 
-> Only **install** works remotely this way. **sync** (capturing changes back) must run from
-> a local clone, because it writes into the repo and you'll want to `git commit` the result —
-> and npx's copy is a throwaway, read-only cache.
+> Capturing changes back also works remotely — `npx github:wangcansunking/can-claude-profile sync --push`
+> clones to a temp dir, captures this machine, commits, and pushes. The machine just needs
+> git push access to the repo. (See [Scenario B](#scenario-b--you-changed-your-setup-save-it-to-the-repo).)
 
 ### A2 — Clone, then install
 
@@ -72,11 +72,16 @@ What it does — and does **not** — touch:
 
 You installed a new skill or toggled a plugin and want the repo to reflect it.
 
+**One command — capture, commit, and push in one shot:**
+
 ```bash
-node profile.mjs sync
+node profile.mjs sync --push          # from a local clone
+# — or, from any machine without cloning —
+npx github:wangcansunking/can-claude-profile sync --push
 ```
 
-You'll get a **review** like this before anything is written:
+Both show a **review** first, then (with `--push`) commit the captured `profile/` and push
+to GitHub for you. Add `--yes` to skip the confirmation. The review looks like:
 
 ```
 Skills — vendored into repo (link kept as provenance):
@@ -92,10 +97,11 @@ Excluded (Microsoft / machine-local):
   ✗ settings env.ANTHROPIC_API_KEY (machine-local/MS)
 ```
 
-Confirm, and the repo's `profile/` is updated. Then commit:
+Prefer to review the diff before it leaves your machine? Drop `--push` and commit yourself:
 
 ```bash
-git add -A && git commit -m "Update profile"
+node profile.mjs sync                 # writes profile/ only
+git add -A && git commit -m "Update profile" && git push
 ```
 
 ---
@@ -106,6 +112,7 @@ git add -A && git commit -m "Update profile"
 |---|---|---|
 | `--yes`, `-y` | both | Skip the confirmation prompt (for scripts/CI). |
 | `--dry-run` | both | Show the preview and write **nothing**. |
+| `--push` | sync | Commit the captured profile and push to GitHub in one step. |
 | `--force` | install | Overwrite skills that already exist on the machine. |
 
 Examples:

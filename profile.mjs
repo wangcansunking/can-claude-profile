@@ -18,8 +18,8 @@ ${C.bold("Usage:")}
   node profile.mjs install    ${C.dim("# repo → machine  (apply the repo profile here, preserving local auth)")}
 
 ${C.bold("Run remotely without cloning (via GitHub):")}
-  npx -p github:wangcansunking/can-claude-profile ccprofile-install   ${C.dim("# one-line install")}
-  npx -p github:wangcansunking/can-claude-profile ccprofile-sync      ${C.dim("# one-line capture")}
+  npx github:wangcansunking/can-claude-profile install        ${C.dim("# one-line install")}
+  npx github:wangcansunking/can-claude-profile sync --push    ${C.dim("# one-line capture + push")}
 
 ${C.bold("Flags:")}
   --yes, -y     ${C.dim("skip confirmation prompts")}

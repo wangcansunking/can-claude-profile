@@ -19,11 +19,12 @@ node profile.mjs install    # set up a machine from the repo
 **One line, no clone** (once this repo is on GitHub, public):
 
 ```bash
-npx -p github:wangcansunking/can-claude-profile ccprofile-install
+npx github:wangcansunking/can-claude-profile install     # set up this machine
+npx github:wangcansunking/can-claude-profile sync --push # capture this machine → GitHub
 ```
 
-npx fetches the repo — skill content travels with it — installs, and is gone. (Only `install`
-runs remotely; `sync` writes back into the repo, so run it from a local clone and `git commit`.)
+npx fetches the repo — skill content travels with it — runs, and is gone. `sync --push`
+clones to a temp dir, captures, commits, and pushes for you (the machine needs git push auth).
 
 Flags: `--yes`/`-y` (skip prompts), `--dry-run` (preview, write nothing), `--force` (install: overwrite existing skills).
 
