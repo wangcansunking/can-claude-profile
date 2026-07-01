@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-30T09:25:58.319Z",
+  "generatedAt": "2026-07-01T06:12:02.808Z",
   "skills": [
     {
       "name": "browser-harness"
@@ -16,6 +16,9 @@
       "name": "diagnose",
       "source": "mattpocock/skills",
       "sourceUrl": "https://github.com/mattpocock/skills.git"
+    },
+    {
+      "name": "effort-bench"
     },
     {
       "name": "find-skills",
