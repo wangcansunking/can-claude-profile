@@ -17,6 +17,10 @@ ${C.bold("Usage:")}
   node profile.mjs sync       ${C.dim("# machine → repo  (capture this machine's config, filter out Microsoft)")}
   node profile.mjs install    ${C.dim("# repo → machine  (apply the repo profile here, preserving local auth)")}
 
+${C.bold("Run remotely without cloning (via GitHub):")}
+  npx -p github:USER/can-claude-profile ccprofile-install   ${C.dim("# one-line install")}
+  npx -p github:USER/can-claude-profile ccprofile-sync      ${C.dim("# one-line capture")}
+
 ${C.bold("Flags:")}
   --yes, -y     ${C.dim("skip confirmation prompts")}
   --dry-run     ${C.dim("preview only, write nothing")}

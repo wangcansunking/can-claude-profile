@@ -16,9 +16,18 @@ node profile.mjs sync       # capture current machine into the repo
 node profile.mjs install    # set up a machine from the repo
 ```
 
+**One line, no clone** (once this repo is on GitHub, public):
+
+```bash
+npx -p github:<your-username>/can-claude-profile ccprofile-install
+```
+
+npx fetches the repo — skill content travels with it — installs, and is gone. (Only `install`
+runs remotely; `sync` writes back into the repo, so run it from a local clone and `git commit`.)
+
 Flags: `--yes`/`-y` (skip prompts), `--dry-run` (preview, write nothing), `--force` (install: overwrite existing skills).
 
-Optional shorter alias: `npm install -g .` once, then `can-claude-profile sync` / `can-claude-profile install` from anywhere.
+Optional local alias: `npm install -g .` once, then `can-claude-profile sync` / `can-claude-profile install` from anywhere.
 
 ---
 

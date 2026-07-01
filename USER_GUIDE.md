@@ -24,7 +24,25 @@ That's it. Run them from the repo root in any terminal (PowerShell, Git Bash, cm
 
 ## Scenario A — set up a brand-new machine
 
-You've cloned this repo onto a fresh machine and want your skills, plugins, and settings.
+You want your skills, plugins, and settings on a fresh machine. Two ways:
+
+### A1 — One line, no clone (via GitHub + npx)
+
+Once this repo is on GitHub (public), install onto any machine without cloning:
+
+```bash
+npx -p github:<your-username>/can-claude-profile ccprofile-install
+```
+
+npx fetches the repo (skill content travels with it), runs the installer, and is gone.
+Add `--yes` to skip the prompt. This is the closest thing to "GitHub dist" — nothing is
+permanently installed, and it works the same on Windows, macOS, and Linux.
+
+> Only **install** works remotely this way. **sync** (capturing changes back) must run from
+> a local clone, because it writes into the repo and you'll want to `git commit` the result —
+> and npx's copy is a throwaway, read-only cache.
+
+### A2 — Clone, then install
 
 ```bash
 git clone <this-repo> can-claude-profile
@@ -32,7 +50,7 @@ cd can-claude-profile
 node profile.mjs install
 ```
 
-You'll see a preview, then a confirmation prompt. After it finishes:
+Either way, after it finishes:
 
 ```
 ✓ Install complete.  Restart Claude Code to pick up plugins & MCP servers.
