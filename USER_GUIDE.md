@@ -31,7 +31,7 @@ You want your skills, plugins, and settings on a fresh machine. Two ways:
 Once this repo is on GitHub (public), install onto any machine without cloning:
 
 ```bash
-npx -p github:<your-username>/can-claude-profile ccprofile-install
+npx -p github:wangcansunking/can-claude-profile ccprofile-install
 ```
 
 npx fetches the repo (skill content travels with it), runs the installer, and is gone.

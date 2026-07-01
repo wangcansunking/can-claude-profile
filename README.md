@@ -19,7 +19,7 @@ node profile.mjs install    # set up a machine from the repo
 **One line, no clone** (once this repo is on GitHub, public):
 
 ```bash
-npx -p github:<your-username>/can-claude-profile ccprofile-install
+npx -p github:wangcansunking/can-claude-profile ccprofile-install
 ```
 
 npx fetches the repo — skill content travels with it — installs, and is gone. (Only `install`
