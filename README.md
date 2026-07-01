@@ -11,20 +11,14 @@ Two directions, two commands:
 | **install** | repo → machine | Apply the repo profile onto a machine. **Never** overwrites local auth/proxy or unrelated settings. |
 
 ```bash
-# Git Bash / macOS / Linux
-./sync.sh           # capture current machine into the repo
-./install.sh        # set up a new machine from the repo
-
-# PowerShell
-.\sync.ps1
-.\install.ps1
-
-# or call Node directly anywhere
-node profile.mjs sync
-node profile.mjs install
+# Pure Node — identical on Windows, macOS, and Linux (Node ships with Claude Code)
+node profile.mjs sync       # capture current machine into the repo
+node profile.mjs install    # set up a machine from the repo
 ```
 
 Flags: `--yes`/`-y` (skip prompts), `--dry-run` (preview, write nothing), `--force` (install: overwrite existing skills).
+
+Optional shorter alias: `npm install -g .` once, then `can-claude-profile sync` / `can-claude-profile install` from anywhere.
 
 ---
 
@@ -63,9 +57,7 @@ Token matching means `ado` filters `ado-auto-work` and `azure-devops` but **not*
 ## Repo layout
 
 ```
-profile.mjs            entry point  (sync | install)
-sync.sh  / sync.ps1    thin wrappers → node profile.mjs sync
-install.sh / install.ps1                 → node profile.mjs install
+profile.mjs            entry point  (sync | install) — pure Node, cross-platform
 filter.config.json     Microsoft filter (keywords / deny / allow)
 lib/
   core.mjs             paths, filter logic, JSON I/O, prompts
@@ -81,4 +73,4 @@ profile/               the captured profile (committed)
 
 ## Requirements
 
-Node 18+ (ships with Claude Code), `git`, and the `claude` CLI on PATH (for plugin marketplace install). Works on Windows (Git Bash or PowerShell), macOS, and Linux.
+Node 18+ (ships with Claude Code) and `git`. The `claude` CLI on PATH is only needed for the plugin-marketplace step. Being a pure Node script, it runs identically on Windows (PowerShell, Git Bash, or cmd), macOS, and Linux — no shell or execution-policy setup.

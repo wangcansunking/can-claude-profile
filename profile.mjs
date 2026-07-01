@@ -20,9 +20,8 @@ ${C.bold("Usage:")}
 ${C.bold("Flags:")}
   --yes, -y     ${C.dim("skip confirmation prompts")}
   --dry-run     ${C.dim("preview only, write nothing")}
+  --force       ${C.dim("(install) overwrite skills that already exist")}
 
-${C.bold("Shortcuts:")}
-  ./sync.sh    ./install.sh       ${C.dim("(Git Bash / macOS / Linux)")}
-  .\\sync.ps1   .\\install.ps1      ${C.dim("(PowerShell)")}`);
+${C.dim("Pure Node — runs the same on Windows, macOS, and Linux. Node ships with Claude Code.")}`);
   process.exit(cmd ? 1 : 0);
 }

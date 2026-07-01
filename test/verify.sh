@@ -8,9 +8,9 @@ mkdir -p ~/.claude
 echo '{ "env": { "ANTHROPIC_API_KEY": "CONTAINER-LOCAL-KEY", "ANTHROPIC_BASE_URL": "http://127.0.0.1:9999" }, "theme": "light", "permissions": {"allow":["Bash(git:*)"]} }' > ~/.claude/settings.json
 echo "seeded ~/.claude/settings.json with ANTHROPIC_API_KEY=CONTAINER-LOCAL-KEY"
 echo ""
-echo "=== RUN one command: ./install.sh --yes ==="
-cd /work && chmod +x install.sh
-./install.sh --yes 2>&1 | sed 's/\x1b\[[0-9;]*m//g'
+echo "=== RUN one command: node profile.mjs install --yes ==="
+cd /work
+node profile.mjs install --yes 2>&1 | sed 's/\x1b\[[0-9;]*m//g'
 echo ""
 echo "=== VERIFY ==="
 node -e '

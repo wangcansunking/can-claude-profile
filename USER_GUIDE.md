@@ -3,31 +3,33 @@
 Capture your personal Claude Code setup into this repo, and restore it on any machine —
 each with **one command**. Microsoft / work-internal items are filtered out automatically.
 
+Everything is a **pure Node script** (`profile.mjs`). Node ships with Claude Code, so the
+exact same command works on **Windows, macOS, and Linux** — no bash, no PowerShell setup,
+no `chmod`, no execution-policy tweaks.
+
 ---
 
 ## The two commands
 
 ```bash
-# 1) Update the repo FROM this machine   (export / "sync")
-./sync.sh
-
-# 2) Install the repo ONTO a machine     (import / "install")
-./install.sh
+node profile.mjs sync       # 1) export: this machine → repo
+node profile.mjs install    # 2) import: repo → this machine
 ```
 
-PowerShell equivalents: `.\sync.ps1` and `.\install.ps1`.
-No bash/pwsh? `node profile.mjs sync` and `node profile.mjs install` work anywhere Node does.
+That's it. Run them from the repo root in any terminal (PowerShell, Git Bash, cmd, macOS/Linux shell).
+
+> Prefer typing less? See [Optional: a shorter command](#optional-a-shorter-command) at the bottom.
 
 ---
 
 ## Scenario A — set up a brand-new machine
 
-You've cloned this repo onto a fresh laptop and want your skills, plugins, and settings.
+You've cloned this repo onto a fresh machine and want your skills, plugins, and settings.
 
 ```bash
 git clone <this-repo> can-claude-profile
 cd can-claude-profile
-./install.sh
+node profile.mjs install
 ```
 
 You'll see a preview, then a confirmation prompt. After it finishes:
@@ -53,7 +55,7 @@ What it does — and does **not** — touch:
 You installed a new skill or toggled a plugin and want the repo to reflect it.
 
 ```bash
-./sync.sh
+node profile.mjs sync
 ```
 
 You'll get a **review** like this before anything is written:
@@ -90,10 +92,20 @@ git add -A && git commit -m "Update profile"
 
 Examples:
 ```bash
-./sync.sh --dry-run      # see what WOULD be captured
-./install.sh --yes       # unattended install
-./install.sh --force     # re-install skills, overwriting local copies
+node profile.mjs sync --dry-run      # see what WOULD be captured
+node profile.mjs install --yes       # unattended install
+node profile.mjs install --force     # re-install skills, overwriting local copies
 ```
+
+---
+
+## Platform notes
+
+All three platforms run the identical command — `node profile.mjs <sync|install>`.
+
+- **Windows** — works in PowerShell 7, Windows PowerShell 5.1, Git Bash, and cmd. `%USERPROFILE%\.claude` is resolved automatically. No execution-policy change needed (it's a Node script, not a `.ps1`).
+- **macOS / Linux** — works in any shell.
+- **Requirement** — Node 18+ (bundled with Claude Code) and `git`. The `claude` CLI on PATH is only needed for the plugin-marketplace step; without it, skills and settings still install and you'll see a friendly `skip(no claude CLI)`.
 
 ---
 
@@ -113,7 +125,7 @@ Edit [`filter.config.json`](filter.config.json):
 - **deny** — exact names to always exclude, even with no telltale keyword.
 - **allow** — exact names to always keep, even if a keyword matches (wins over everything).
 
-Run `./sync.sh --dry-run` after editing to confirm the kept/excluded lists look right.
+Run `node profile.mjs sync --dry-run` after editing to confirm the kept/excluded lists look right.
 
 ---
 
@@ -140,11 +152,31 @@ profile/
 Reproduce the import in a throwaway Ubuntu container — your machine is untouched:
 
 ```bash
-./test/run.sh            # quick: node+git only
-./test/run.sh --withcli  # full: also installs the real claude CLI
+bash test/run.sh            # quick: node+git only
+bash test/run.sh --withcli  # full: also installs the real claude CLI
 ```
 
-Expect `=== 13 passed, 0 failed ===`.
+Expect `=== 13 passed, 0 failed ===`. (These test scripts stay as bash because they only
+ever run inside the Linux container — your actual profile commands are pure Node.)
+
+---
+
+## Optional: a shorter command
+
+If you'd rather type `can-claude-profile sync` from anywhere instead of `node profile.mjs sync`:
+
+```bash
+npm install -g .      # run once, from the repo root
+```
+
+Then, in any directory:
+
+```bash
+can-claude-profile sync
+can-claude-profile install
+```
+
+This is purely a convenience alias — it runs the same `profile.mjs` under the hood.
 
 ---
 
@@ -154,7 +186,7 @@ Expect `=== 13 passed, 0 failed ===`.
 |---|---|
 | `! marketplace … skip(no claude CLI)` | The `claude` CLI isn't on PATH. Skills/settings still installed; install the CLI and re-run, or add marketplaces manually. |
 | Plugins not active after install | **Restart Claude Code** — plugins load at startup. |
-| A skill I want got excluded | It matched a filter keyword. Add its exact name to `allow` in `filter.config.json`, re-run `./sync.sh`. |
-| A work item leaked into the repo | Add a keyword or its exact name to `deny` in `filter.config.json`, re-run `./sync.sh`. |
-| Install overwrote nothing / skills already there | By design. Use `./install.sh --force` to overwrite. |
+| A skill I want got excluded | It matched a filter keyword. Add its exact name to `allow` in `filter.config.json`, re-run `node profile.mjs sync`. |
+| A work item leaked into the repo | Add a keyword or its exact name to `deny` in `filter.config.json`, re-run `node profile.mjs sync`. |
+| Install overwrote nothing / skills already there | By design. Use `node profile.mjs install --force` to overwrite. |
 | Want to undo a settings change | Restore from `~/.claude/backups/profile-install/`. |
