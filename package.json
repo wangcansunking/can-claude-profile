@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "One-command capture and restore of a personal Claude Code setup (skills, plugins, MCP, settings), with Microsoft items filtered out.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangcansunking/can-claude-profile.git"
+  },
   "bin": {
     "can-claude-profile": "profile.mjs",
     "ccprofile-install": "bin/ccprofile-install.mjs",

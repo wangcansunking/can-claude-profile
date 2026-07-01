@@ -24,6 +24,7 @@ ${C.bold("Run remotely without cloning (via GitHub):")}
 ${C.bold("Flags:")}
   --yes, -y     ${C.dim("skip confirmation prompts")}
   --dry-run     ${C.dim("preview only, write nothing")}
+  --push        ${C.dim("(sync) commit the captured profile and push to GitHub")}
   --force       ${C.dim("(install) overwrite skills that already exist")}
 
 ${C.dim("Pure Node — runs the same on Windows, macOS, and Linux. Node ships with Claude Code.")}`);
