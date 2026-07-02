@@ -28,8 +28,23 @@
 
 ---
 
+## Engineering Discipline
+
+- **Search before building.** Before writing a utility, helper, or library, check for something that already solves it. Prefer standard library → an established popular library → custom code. Only write custom when the conventional approach genuinely doesn't fit — and document why.
+- **Surgical changes.** Make the smallest change that solves the problem. Don't refactor unrelated code, rename things, or reformat files you aren't actively working on. Keep the diff focused on the task.
+
+---
+
 ## Verify Before Notifying
 
 - After any change or fix — especially when the user asked about a bug or specific issue — finish testing yourself before telling the user it's ready. Don't hand back code that you haven't proven works.
 - For UX changes or page-level bugs, test via the Playwright MCP server before reporting completion. Take a screenshot or capture a snapshot as evidence when relevant.
 - If you cannot run a test in this environment (e.g., needs corp VPN, interactive login, hardware), say so explicitly and describe what manual step the user must run — never imply success you didn't verify.
+- **Understanding, not just green tests.** Passing tests is not the same as understanding. Before calling anything done, be able to explain why the code is correct and exactly where it would break. If you can't walk the failure modes, you're guessing — keep going.
+
+---
+
+## Completion Status
+
+- End each task with an explicit status: **DONE** (all steps complete, with evidence for each claim), **BLOCKED** (state what's blocking and what you already tried), or **NEEDS_CONTEXT** (state exactly what information is missing).
+- "Partially done" is not a status. Either it's finished (DONE) or it isn't (BLOCKED / NEEDS_CONTEXT). Honesty about incompleteness beats pretending.
