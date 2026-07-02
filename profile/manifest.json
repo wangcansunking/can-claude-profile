@@ -5,6 +5,9 @@
       "name": "browser-harness"
     },
     {
+      "name": "can-claude-profile"
+    },
+    {
       "name": "caveman",
       "source": "mattpocock/skills",
       "sourceUrl": "https://github.com/mattpocock/skills.git"
