@@ -33,6 +33,7 @@
 
 - **Search before building.** Before writing a utility, helper, or library, check for something that already solves it. Prefer standard library → an established popular library → custom code. Only write custom when the conventional approach genuinely doesn't fit — and document why.
 - **Surgical changes.** Make the smallest change that solves the problem. Don't refactor unrelated code, rename things, or reformat files you aren't actively working on. Keep the diff focused on the task.
+- **Name worktree sessions.** After checking out a git worktree, rename the session to give it a descriptive name (so parallel worktree sessions are easy to tell apart).
 
 ---
 
