@@ -1,5 +1,15 @@
 # Global Rules
 
+## Spec-First & E2E Testing
+
+- **Spec first.** For any feature or change, write the spec before anything else. Only once the spec is settled, generate the tests from it — then implement.
+- **E2E before change.** Before making a change, write end-to-end tests for it first, covering as many edge cases as possible (not just the happy path).
+- **E2E must pass before handoff.** After a change, always wait for the full E2E suite to finish and pass with zero failures before telling the user it's ready for acceptance. Never notify the user while tests are red or still running.
+- **E2E guards quality everywhere.** Every repo should be covered by E2E tests as far as practical — treat them as the primary quality gate.
+- **Don't break what works.** A change must not disturb flows that are already working. If a change does touch existing code paths, their corresponding E2E tests must pass before the change is considered done.
+
+---
+
 ## Temporary Files
 
 - All temporary / scratch files generated during sessions (Playwright snapshots, test outputs, spec drafts, etc.) must be saved to `cc-history/` at the workspace root, organized into subfolders by session date: `cc-history/YYYY-MM-DD-<short-description>/`.
