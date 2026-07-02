@@ -12,9 +12,9 @@
 
 ## Temporary Files
 
-- All temporary / scratch files generated during sessions (Playwright snapshots, test outputs, spec drafts, etc.) must be saved to `cc-history/` at the workspace root, organized into subfolders by session date: `cc-history/YYYY-MM-DD-<short-description>/`.
+- All temporary / scratch files generated during sessions (Playwright snapshots, test outputs, spec drafts, etc.) must be saved to `.claude/history/` at the workspace root, organized into subfolders by session date: `.claude/history/YYYY-MM-DD-<short-description>/`.
 - Never leave temp files in the workspace root directory.
-- Playwright MCP screenshots must be saved to `.playwright-mcp/`.
+- Playwright MCP screenshots must be saved to `.claude/playwright-mcp/`.
 
 ---
 
