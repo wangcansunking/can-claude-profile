@@ -7,6 +7,7 @@
 - **E2E must pass before handoff.** After a change, always wait for the full E2E suite to finish and pass with zero failures before telling the user it's ready for acceptance. Never notify the user while tests are red or still running.
 - **E2E guards quality everywhere.** Every repo should be covered by E2E tests as far as practical — treat them as the primary quality gate.
 - **Don't break what works.** A change must not disturb flows that are already working. If a change does touch existing code paths, their corresponding E2E tests must pass before the change is considered done.
+- **Pick the right E2E tooling.** For backend/service changes, prefer testing in Docker. For frontend/UX changes, prefer the browser-harness skill; if it isn't available, fall back to the Playwright MCP server.
 
 ---
 
