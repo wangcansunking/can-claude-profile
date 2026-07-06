@@ -3,7 +3,7 @@
 import os from "node:os";
 import fs from "node:fs";
 import path from "node:path";
-import { diffMaps, selectItems, dirsEqual } from "../lib/core.mjs";
+import { diffMaps, selectItems, dirsEqual, multiSelectReducer, decodeKey } from "../lib/core.mjs";
 
 let pass = 0, fail = 0;
 const chk = (name, cond) => { console.log((cond ? "PASS " : "FAIL ") + name); cond ? pass++ : fail++; };
@@ -83,6 +83,45 @@ const eqArr = (a, b) => JSON.stringify(a) === JSON.stringify(b);
   fs.writeFileSync(path.join(b, "extra.txt"), "x");
   chk("extra file → not equal", dirsEqual(a, b) === false);
   fs.rmSync(root, { recursive: true, force: true });
+}
+
+// 9. multiSelectReducer: navigation wraps, space toggles current.
+{
+  let st = { cursor: 0, checked: [true, true, true] };
+  st = multiSelectReducer(st, "down", 3); chk("down moves cursor to 1", st.cursor === 1);
+  st = multiSelectReducer(st, "up", 3); st = multiSelectReducer(st, "up", 3);
+  chk("up wraps to last", st.cursor === 2);
+  st = multiSelectReducer(st, "space", 3);
+  chk("space unchecks current (idx 2)", st.checked[2] === false && st.checked[0] === true);
+}
+
+// 10. multiSelectReducer: "a" toggles all off then on.
+{
+  let st = { cursor: 0, checked: [true, true] };
+  st = multiSelectReducer(st, "a", 2);
+  chk("a with all-on → all off", eqArr(st.checked, [false, false]));
+  st = multiSelectReducer(st, "a", 2);
+  chk("a again → all on", eqArr(st.checked, [true, true]));
+}
+
+// 11. multiSelectReducer: partial state + "a" checks all (since not every on).
+{
+  let st = { cursor: 0, checked: [true, false, false] };
+  st = multiSelectReducer(st, "a", 3);
+  chk("a with mixed → all on", eqArr(st.checked, [true, true, true]));
+}
+
+// 12. decodeKey: arrows, vim keys, space, enter, cancel.
+{
+  const dk = (s) => decodeKey(Buffer.from(s, "utf8"));
+  chk("enter (\\r)", dk("\r") === "enter");
+  chk("space", dk(" ") === "space");
+  chk("up arrow", dk("\x1b[A") === "up");
+  chk("down arrow", dk("\x1b[B") === "down");
+  chk("k = up", dk("k") === "up");
+  chk("j = down", dk("j") === "down");
+  chk("a = a", dk("a") === "a");
+  chk("Ctrl-C cancels", dk("\x03") === "cancel");
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

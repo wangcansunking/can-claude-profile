@@ -110,8 +110,11 @@ node profile.mjs sync --drop=plugin:some-plugin    # everything changed except t
 node profile.mjs sync --json                        # print the changeset as JSON (for agents/scripts)
 ```
 
+Run `sync` with no flags in a terminal and it shows the diff, then a **checkbox
+list** of the changed items — all ticked by default; use ↑/↓ to move, space to
+toggle, `a` for all/none, Enter to apply. Untick anything you don't want to push.
 Or just tell Claude "sync my setup and let me choose what to push" — it runs `--json`,
-shows you the diff through an interactive picker, and applies your selection.
+shows you the diff through a multi-select prompt, and applies your selection.
 
 Prefer to review the diff before it leaves your machine? Drop `--push` and commit yourself:
 

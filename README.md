@@ -54,7 +54,7 @@ node profile.mjs sync --pick=skill:foo,mcp:bar     # capture only these diff ite
 node profile.mjs sync --drop=plugin:baz --push     # capture everything except that plugin, then push
 ```
 
-Ask Claude to "sync my setup, let me choose what to push" and it runs `--json`, presents the diff via an interactive picker, and applies exactly your selection.
+Run `sync` in a terminal with no flags and it shows the diff, then a **checkbox list** of the changed items (all checked; ↑/↓, space to toggle, `a` all/none, Enter to apply) — untick anything you don't want to push. Or ask Claude to "sync my setup, let me choose what to push" and it runs `--json`, presents the diff via a multi-select prompt, and applies exactly your selection.
 
 **CLAUDE.md auto-merges.** If a global `~/.claude/CLAUDE.md` already exists and differs, install does a deterministic **section-by-section union** — every local rule is kept, repo rules are added, exact duplicates dropped, the old file backed up. No blind overwrite, no manual merge on the normal path.
 

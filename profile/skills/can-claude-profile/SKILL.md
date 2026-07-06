@@ -60,7 +60,7 @@ Rules:
 - `--pick` and `--drop` take the exact prefixed ids from the `--json` `actionable` list. `--pick` restricts to the listed ids; `--drop` subtracts them; `--only`/`--skip` scope whole components first.
 - Item selection is available for **skills, plugins, mcp**. `settings` and `claudemd` are whole-file, toggled at the component level via `--only`/`--skip`.
 - Never hand-edit files under `profile/` to capture machine state — always go through `sync` so filtering, vendoring, and the manifest stay consistent.
-- Running `sync` with no selection flags (interactively) shows the diff preview, then prints a **numbered menu of the changed items** so the user can exclude any by number (Enter = keep all) before a final write confirmation — the same pick-by-number UX as install's component menu, but at item level. Use flags (`--pick`/`--drop`/`--only`) for unattended runs.
+- Running `sync` with no selection flags (interactively, in a real terminal) shows the diff preview, then a **checkbox multi-select** of the changed items — all checked by default; ↑/↓ to move, **space to toggle**, `a` for all/none, Enter to apply. Uncheck anything you don't want to push. For unattended runs (piped/non-TTY, or `--yes`), it keeps all changed items; use `--pick`/`--drop`/`--only` to deselect without a TTY.
 
 ## What install merges automatically (don't redo these by hand)
 
