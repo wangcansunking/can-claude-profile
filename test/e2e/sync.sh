@@ -113,6 +113,29 @@ chk "repo settings has no API key" "$(node -e 'const s=require(process.argv[1]);
 chk "theme change captured" "$(node -e 'console.log(require(process.argv[1]).theme)' "$RE/profile/settings.json")" "dark"
 rm -rf "$R"
 
+# ── 7. Interactive item picker: exclude by number (parity with install menu) ─
+scenario "interactive picker excludes item #1, keeps the rest"
+R="$(setup)"; H="$R/home"; RE="$R/repo"
+for n in aaa-skill bbb-skill; do
+  mkdir -p "$H/.claude/skills/$n"; printf -- '---\nname: %s\n---\nx\n' "$n" > "$H/.claude/skills/$n/SKILL.md"
+done
+# stdin: "1" excludes the first actionable id, blank line answers the write confirm.
+printf '1\n\n' | HOME="$H" USERPROFILE="$H" node "$RE/profile.mjs" sync >/dev/null 2>&1
+# first actionable id is alphabetically aaa-skill (ids are sorted).
+chk "excluded item #1 not written" "$([ -d "$RE/profile/skills/aaa-skill" ] && echo yes || echo no)" "no"
+chk "kept item written" "$([ -d "$RE/profile/skills/bbb-skill" ] && echo yes || echo no)" "yes"
+rm -rf "$R"
+
+# ── 8. Interactive picker: Enter keeps everything ───────────────────────────
+scenario "interactive picker with Enter writes all changed items"
+R="$(setup)"; H="$R/home"; RE="$R/repo"
+for n in ccc-skill ddd-skill; do
+  mkdir -p "$H/.claude/skills/$n"; printf -- '---\nname: %s\n---\nx\n' "$n" > "$H/.claude/skills/$n/SKILL.md"
+done
+printf '\n\n' | HOME="$H" USERPROFILE="$H" node "$RE/profile.mjs" sync >/dev/null 2>&1
+chk "both items written on Enter" "$([ -d "$RE/profile/skills/ccc-skill" ] && [ -d "$RE/profile/skills/ddd-skill" ] && echo yes || echo no)" "yes"
+rm -rf "$R"
+
 echo
 echo "=== SYNC E2E: $pass passed, $fail failed ==="
 [ "$fail" -eq 0 ]
