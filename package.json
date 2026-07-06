@@ -19,7 +19,7 @@
   "scripts": {
     "sync": "node profile.mjs sync",
     "install-profile": "node profile.mjs install",
-    "test": "node test/merge.unit.mjs",
+    "test": "node test/merge.unit.mjs && node test/sync.unit.mjs",
     "test:e2e": "bash test/e2e/run.sh",
     "test:e2e:online": "bash test/e2e/run.sh --online"
   },

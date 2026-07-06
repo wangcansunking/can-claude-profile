@@ -80,27 +80,43 @@ node profile.mjs sync --push          # from a local clone
 npx github:wangcansunking/can-claude-profile sync --push
 ```
 
-Both show a **review** first, then (with `--push`) commit the captured `profile/` and push
-to GitHub for you. Add `--yes` to skip the confirmation. The review looks like:
+`sync` is **diff-aware**: it compares your machine against what's already in the repo and
+writes **only what changed** — re-running it when nothing changed is a clean no-op. It shows
+a diff review first, then (with `--push`) commits the changed `profile/` files and pushes.
+Add `--yes` to skip the confirmation. The review looks like:
 
 ```
-Skills — vendored into repo (link kept as provenance):
-  ✓ caveman      ← mattpocock/skills
-  ✓ tdd          ← mattpocock/skills
-  ...
-Plugins kept:
-  ✓ frontend-design@claude-plugins-official
-  ...
+── SYNC PREVIEW  (machine → repo, diff only) ──
+
+Skills:
+  + my-new-skill  new
+  ~ tdd           changed
+  …and 20 unchanged
+Plugins:
+  (no changes)
+settings.json: • unchanged
+CLAUDE.md: ~ changed
+
 Excluded (Microsoft / machine-local):
-  ✗ skill    ado-auto-work        (keyword "ado")
-  ✗ mcp      azure                (keyword "azure")
-  ✗ settings env.ANTHROPIC_API_KEY (machine-local/MS)
+  ✗ settings  env.ANTHROPIC_API_KEY
 ```
+
+**Pick exactly what to capture.** Scope by component or select individual changed items:
+
+```bash
+node profile.mjs sync --only=skills                # only skill changes
+node profile.mjs sync --pick=skill:my-new-skill    # only this diff item
+node profile.mjs sync --drop=plugin:some-plugin    # everything changed except that plugin
+node profile.mjs sync --json                        # print the changeset as JSON (for agents/scripts)
+```
+
+Or just tell Claude "sync my setup and let me choose what to push" — it runs `--json`,
+shows you the diff through an interactive picker, and applies your selection.
 
 Prefer to review the diff before it leaves your machine? Drop `--push` and commit yourself:
 
 ```bash
-node profile.mjs sync                 # writes profile/ only
+node profile.mjs sync                 # writes changed profile/ files only
 git add -A && git commit -m "Update profile" && git push
 ```
 
@@ -114,12 +130,18 @@ git add -A && git commit -m "Update profile" && git push
 | `--dry-run` | both | Show the preview and write **nothing**. |
 | `--push` | sync | Commit the captured profile and push to GitHub in one step. |
 | `--force` | install | Overwrite skills that already exist on the machine. |
+| `--only=a,b` | both | Limit to these components: `skills,settings,mcp,plugins,claudemd`. |
+| `--skip=a,b` | both | Everything **except** these components. |
+| `--pick=id,…` | sync | Apply only these diff items, e.g. `skill:foo,mcp:bar`. |
+| `--drop=id,…` | sync | Apply all diff items **except** these. |
+| `--json` | sync | Print the machine↔repo changeset as JSON and exit (for agents). |
 
 Examples:
 ```bash
-node profile.mjs sync --dry-run      # see what WOULD be captured
-node profile.mjs install --yes       # unattended install
-node profile.mjs install --force     # re-install skills, overwriting local copies
+node profile.mjs sync --dry-run              # see what WOULD be captured (diff only)
+node profile.mjs sync --only=skills --push   # capture only skill changes, then push
+node profile.mjs install --yes               # unattended install
+node profile.mjs install --force             # re-install skills, overwriting local copies
 ```
 
 ---
@@ -189,7 +211,8 @@ ever run inside the Linux container — your actual profile commands are pure No
 `test/e2e/` runs the whole install contract across many scenarios in fresh containers —
 fresh install, all four CLAUDE.md states (absent / identical / auto-merge / merge-fallback),
 `--only`/`--skip`/`--dry-run`/`--force`, idempotency, Microsoft-filtering, and graceful
-skip when the `claude` CLI is absent:
+skip when the `claude` CLI is absent — plus a **sync tier** covering diff-only capture
+(no-op when unchanged, adds only new items, `--pick`/`--only` selection, `--json` shape):
 
 ```bash
 bash test/e2e/run.sh            # offline scenarios (fast, no network)

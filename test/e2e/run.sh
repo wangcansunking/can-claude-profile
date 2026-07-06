@@ -28,8 +28,10 @@ docker build -f test/e2e/Dockerfile --build-arg "WITHCLI=$WITHCLI" -t "$TAG" . >
 
 rc=0
 if [ "$ONLINE_ONLY" = 0 ]; then
-  echo; echo "▶ OFFLINE SCENARIOS"
+  echo; echo "▶ OFFLINE SCENARIOS (install)"
   docker run --rm "$TAG" || rc=$?
+  echo; echo "▶ OFFLINE SCENARIOS (sync, diff-aware + selectable)"
+  docker run --rm --entrypoint bash "$TAG" /work/test/e2e/sync.sh || rc=$?
 fi
 if [ "$ONLINE" = 1 ]; then
   echo; echo "▶ ONLINE TIER"

@@ -21,7 +21,7 @@ node profile.mjs sync       # this machine → repo  (capture; add --push to com
 
 - Run from a local clone. Or remotely, no clone:
   `npx github:wangcansunking/can-claude-profile install`
-- Flags: `--yes` (skip prompts), `--dry-run` (preview only), `--force` (install: overwrite existing skills), `--push` (sync: commit + push), `--only=`/`--skip=` (install: pick components).
+- Flags: `--yes` (skip prompts), `--dry-run` (preview only), `--force` (install: overwrite existing skills), `--push` (sync: commit + push), `--only=`/`--skip=` (install & sync: pick components), `--pick=`/`--drop=`/`--json` (sync: item-level diff selection).
 - If `claude` isn't on PATH the marketplace step prints `skip(no claude CLI)`; skills and settings still install. Install the CLI and re-run to add marketplaces.
 
 ## Letting the user pick what to install
@@ -34,6 +34,33 @@ node profile.mjs install --skip=plugins,mcp       # everything EXCEPT these
 ```
 
 Run interactively (no `--yes`) and the installer prints a numbered menu so the user can exclude components by number. When a user asks to "just install the skills" or "don't touch my settings", translate that to the right `--only`/`--skip` flag rather than editing files by hand.
+
+## Prompt-triggered selective sync (machine → repo)
+
+`sync` is **diff-aware**: it compares the machine against what's already vendored in the repo and writes **only what changed**, so re-running it produces no churn. It takes the same `--only=`/`--skip=` component flags as install, plus **item-level** selection.
+
+When a user asks to "sync / capture / save my setup" — especially with any hint of choosing what to push ("only the new skills", "don't push MCP") — drive it like this:
+
+1. **Compute the diff as JSON** (never write yet):
+   ```bash
+   node profile.mjs sync --json
+   ```
+   The output has per-component `added` / `changed` / `removed` / `unchanged` lists and a flat `actionable` array of prefixed ids (`skill:foo`, `plugin:bar`, `mcp:baz`).
+2. **If nothing is actionable**, tell the user the repo already matches — done.
+3. **Otherwise present the diff and let the user choose**, using the `AskUserQuestion` tool (multi-select) with one option per actionable item (or per component when the list is long). Ask about one component at a time; don't dump everything inline.
+4. **Apply exactly their choice** by passing the selected ids:
+   ```bash
+   node profile.mjs sync --yes --pick=skill:foo,mcp:baz      # ONLY these diff items
+   node profile.mjs sync --yes --drop=plugin:bar             # all diff items EXCEPT these
+   node profile.mjs sync --yes --only=skills                 # whole component only
+   ```
+   Add `--push` to commit + push in the same run.
+
+Rules:
+- `--pick` and `--drop` take the exact prefixed ids from the `--json` `actionable` list. `--pick` restricts to the listed ids; `--drop` subtracts them; `--only`/`--skip` scope whole components first.
+- Item selection is available for **skills, plugins, mcp**. `settings` and `claudemd` are whole-file, toggled at the component level via `--only`/`--skip`.
+- Never hand-edit files under `profile/` to capture machine state — always go through `sync` so filtering, vendoring, and the manifest stay consistent.
+- Running `sync` with no selection flags (interactively) shows the diff preview and asks once before writing everything that changed.
 
 ## What install merges automatically (don't redo these by hand)
 

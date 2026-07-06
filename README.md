@@ -36,7 +36,7 @@ npx github:wangcansunking/can-claude-profile sync --push # capture this machine 
 npx fetches the repo — skill content travels with it — runs, and is gone. `sync --push`
 clones to a temp dir, captures, commits, and pushes for you (the machine needs git push auth).
 
-Flags: `--yes`/`-y` (skip prompts), `--dry-run` (preview, write nothing), `--force` (install: overwrite existing skills), `--only=`/`--skip=` (install: pick components — `skills,settings,mcp,plugins,claudemd`).
+Flags: `--yes`/`-y` (skip prompts), `--dry-run` (preview, write nothing), `--force` (install: overwrite existing skills), `--only=`/`--skip=` (install & sync: pick components — `skills,settings,mcp,plugins,claudemd`), `--pick=`/`--drop=`/`--json` (sync: item-level diff selection).
 
 **Pick what to install.** Run `install` interactively (no `--yes`) and it shows a numbered menu to exclude components. Or be explicit:
 
@@ -44,6 +44,17 @@ Flags: `--yes`/`-y` (skip prompts), `--dry-run` (preview, write nothing), `--for
 node profile.mjs install --only=skills,claudemd   # only these
 node profile.mjs install --skip=plugins           # everything except plugins
 ```
+
+**Sync is diff-aware and selectable.** `sync` compares the machine against the repo and writes **only what changed** — no churn on a no-op. Scope it by component, or pick individual changed items:
+
+```bash
+node profile.mjs sync --json                       # print the machine↔repo changeset (for agents)
+node profile.mjs sync --only=skills                # capture only skill changes
+node profile.mjs sync --pick=skill:foo,mcp:bar     # capture only these diff items
+node profile.mjs sync --drop=plugin:baz --push     # capture everything except that plugin, then push
+```
+
+Ask Claude to "sync my setup, let me choose what to push" and it runs `--json`, presents the diff via an interactive picker, and applies exactly your selection.
 
 **CLAUDE.md auto-merges.** If a global `~/.claude/CLAUDE.md` already exists and differs, install does a deterministic **section-by-section union** — every local rule is kept, repo rules are added, exact duplicates dropped, the old file backed up. No blind overwrite, no manual merge on the normal path.
 
