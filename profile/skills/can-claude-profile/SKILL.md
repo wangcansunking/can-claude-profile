@@ -21,24 +21,32 @@ node profile.mjs sync       # this machine → repo  (capture; add --push to com
 
 - Run from a local clone. Or remotely, no clone:
   `npx github:wangcansunking/can-claude-profile install`
-- Flags: `--yes` (skip prompts), `--dry-run` (preview only), `--force` (install: overwrite existing skills), `--push` (sync: commit + push).
+- Flags: `--yes` (skip prompts), `--dry-run` (preview only), `--force` (install: overwrite existing skills), `--push` (sync: commit + push), `--only=`/`--skip=` (install: pick components).
 - If `claude` isn't on PATH the marketplace step prints `skip(no claude CLI)`; skills and settings still install. Install the CLI and re-run to add marketplaces.
+
+## Letting the user pick what to install
+
+Install applies five components: **skills, settings, mcp, plugins, claudemd**. By default all are applied. To install a subset, pass either flag (comma-separated keys):
+
+```bash
+node profile.mjs install --only=skills,claudemd   # ONLY these
+node profile.mjs install --skip=plugins,mcp       # everything EXCEPT these
+```
+
+Run interactively (no `--yes`) and the installer prints a numbered menu so the user can exclude components by number. When a user asks to "just install the skills" or "don't touch my settings", translate that to the right `--only`/`--skip` flag rather than editing files by hand.
 
 ## What install merges automatically (don't redo these by hand)
 
 - **settings.json** — deep-merged. Machine `env` wins over repo (local auth/proxy preserved); repo sets behavior prefs and `enabledPlugins`. Backed up first.
 - **Skills** — additive. Existing skills untouched unless `--force`.
 - **MCP servers** — additive; same-named servers kept.
-- **CLAUDE.md** — installed only if absent; if identical, skipped.
+- **CLAUDE.md** — absent → installed; identical → skipped; **differs → auto section-merge** (union by `## ` heading; every local rule kept, repo rules added, exact duplicates dropped, old file backed up). No manual step needed on the normal path.
 
-## The one thing you handle: a CLAUDE.md conflict
+## CLAUDE.md: only step in if auto-merge fails
 
-When install finds a **different** `~/.claude/CLAUDE.md`, it does NOT overwrite. It writes
-the repo version to `~/.claude/CLAUDE.md.incoming` and prints `! differs from local`.
-That's your cue to do a **content-aware merge** — the whole point of using this skill
-instead of a blind `cp`.
-
-Merge procedure:
+The installer now merges `~/.claude/CLAUDE.md` automatically and deterministically. You only
+intervene in the rare case it prints **`! auto-merge failed … — staged repo version`** and
+leaves a `~/.claude/CLAUDE.md.incoming` file. Then do a content-aware merge by hand:
 
 1. Read both files fully: `~/.claude/CLAUDE.md` (local) and `~/.claude/CLAUDE.md.incoming` (repo).
 2. Merge by **section** (`## Heading`), not by line:

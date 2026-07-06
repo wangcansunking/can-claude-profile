@@ -26,6 +26,8 @@ ${C.bold("Flags:")}
   --dry-run     ${C.dim("preview only, write nothing")}
   --push        ${C.dim("(sync) commit the captured profile and push to GitHub")}
   --force       ${C.dim("(install) overwrite skills that already exist")}
+  --only=a,b    ${C.dim("(install) install only these components: skills,settings,mcp,plugins,claudemd")}
+  --skip=a,b    ${C.dim("(install) install everything except these components")}
 
 ${C.dim("Pure Node — runs the same on Windows, macOS, and Linux. Node ships with Claude Code.")}`);
   process.exit(cmd ? 1 : 0);

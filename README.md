@@ -16,6 +16,16 @@ node profile.mjs sync       # capture current machine into the repo
 node profile.mjs install    # set up a machine from the repo
 ```
 
+**Install by prompt** — paste this into Claude Code and let the agent do it:
+
+```text
+Set up my Claude Code profile from github:wangcansunking/can-claude-profile —
+read its install.md and run the install.
+```
+
+Claude reads [`install.md`](install.md), runs the installer (preferring the scripted path,
+falling back to manual copy), and tells you to restart when done. No commands to remember.
+
 **One line, no clone** (once this repo is on GitHub, public):
 
 ```bash
@@ -26,7 +36,16 @@ npx github:wangcansunking/can-claude-profile sync --push # capture this machine 
 npx fetches the repo — skill content travels with it — runs, and is gone. `sync --push`
 clones to a temp dir, captures, commits, and pushes for you (the machine needs git push auth).
 
-Flags: `--yes`/`-y` (skip prompts), `--dry-run` (preview, write nothing), `--force` (install: overwrite existing skills).
+Flags: `--yes`/`-y` (skip prompts), `--dry-run` (preview, write nothing), `--force` (install: overwrite existing skills), `--only=`/`--skip=` (install: pick components — `skills,settings,mcp,plugins,claudemd`).
+
+**Pick what to install.** Run `install` interactively (no `--yes`) and it shows a numbered menu to exclude components. Or be explicit:
+
+```bash
+node profile.mjs install --only=skills,claudemd   # only these
+node profile.mjs install --skip=plugins           # everything except plugins
+```
+
+**CLAUDE.md auto-merges.** If a global `~/.claude/CLAUDE.md` already exists and differs, install does a deterministic **section-by-section union** — every local rule is kept, repo rules are added, exact duplicates dropped, the old file backed up. No blind overwrite, no manual merge on the normal path.
 
 Optional local alias: `npm install -g .` once, then `can-claude-profile sync` / `can-claude-profile install` from anywhere.
 
