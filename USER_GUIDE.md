@@ -184,6 +184,25 @@ bash test/run.sh --withcli  # full: also installs the real claude CLI
 Expect `=== 13 passed, 0 failed ===`. (These test scripts stay as bash because they only
 ever run inside the Linux container — your actual profile commands are pure Node.)
 
+### Full e2e scenario suite
+
+`test/e2e/` runs the whole install contract across many scenarios in fresh containers —
+fresh install, all four CLAUDE.md states (absent / identical / auto-merge / merge-fallback),
+`--only`/`--skip`/`--dry-run`/`--force`, idempotency, Microsoft-filtering, and graceful
+skip when the `claude` CLI is absent:
+
+```bash
+bash test/e2e/run.sh            # offline scenarios (fast, no network)
+bash test/e2e/run.sh --withcli  # + real claude CLI (marketplace step)
+bash test/e2e/run.sh --online   # + network tier: the paste-a-prompt path
+```
+
+The **`--online`** tier reproduces exactly what an agent does when you paste the install
+prompt: it resolves the repo's default branch from the GitHub API, asserts
+`install.md` is fetchable there (guarding the branch-name 404), and runs a real
+`npx github:…` install end to end. Run it after any change to the repo's branch,
+slug, or install flow. Expect `✓ e2e suite passed`.
+
 ---
 
 ## Optional: a shorter command
